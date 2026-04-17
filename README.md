@@ -162,7 +162,21 @@ src/main/
    git tag v1.0.1
    git push origin main --tags
    ```
-5. GitHub Actions가 자동으로 빌드 후 ZIP을 첨부한 GitHub Release를 생성
+5. GitHub Actions가 자동으로 빌드 → ZIP을 첨부한 GitHub Release 생성 → JetBrains Marketplace 업로드 (토큰 설정 시)
+
+### JetBrains Marketplace 자동 배포
+
+태그 푸쉬 시 GitHub Actions가 [`publishPlugin`](https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html#publishPlugin)으로 마켓플레이스에 자동 업로드한다. 사전 준비:
+
+1. **최초 1회만 수동 업로드** — [JetBrains Marketplace](https://plugins.jetbrains.com/)에 로그인 → Upload Plugin → 빌드한 ZIP 업로드 → 심사 통과 (보통 1~3일)
+2. **Marketplace API 토큰 발급** — [Profile → My Tokens](https://plugins.jetbrains.com/author/me/tokens) → Generate New Token
+3. **GitHub Secret 등록** — 레포 Settings → Secrets and variables → Actions → New repository secret
+   - Name: `PUBLISH_TOKEN`
+   - Value: 위에서 발급한 토큰
+4. 이후부터는 `git push --tags`만으로 마켓플레이스 자동 배포
+
+> 채널은 버전 형식으로 자동 결정된다: `v1.0.0` → `default`(stable), `v1.0.0-beta.1` → `beta`, `v1.0.0-eap.1` → `eap`.
+> `PUBLISH_TOKEN` 시크릿이 없으면 publish 단계는 자동으로 스킵된다 (GitHub Release만 생성).
 
 ## 개발 환경에서 테스트
 

@@ -57,6 +57,14 @@ intellijPlatform {
             recommended()
         }
     }
+
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        // v1.0.0 → "default" (stable), v1.0.0-beta.1 → "beta", v1.0.0-eap.1 → "eap" 등
+        channels = providers.gradleProperty("pluginVersion").map { v ->
+            listOf(v.substringAfter('-', "").substringBefore('.').ifEmpty { "default" })
+        }
+    }
 }
 
 changelog {

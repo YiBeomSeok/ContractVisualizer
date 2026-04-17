@@ -61,3 +61,9 @@ jobs:
             --title "v${{ steps.version.outputs.value }}" \
             --notes "${{ steps.notes.outputs.body }}" \
             build/distributions/*.zip
+
+      - name: Publish plugin to JetBrains Marketplace
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        if: env.PUBLISH_TOKEN != ''
+        run: ./gradlew publishPlugin --stacktrace
