@@ -140,14 +140,29 @@ src/main/
 ./gradlew buildPlugin
 ```
 
-결과물: `build/distributions/ContractVisualizer.zip`
+결과물: `build/distributions/ContractVisualizer-<version>.zip`
 
 ## 설치
 
-1. Android Studio → Settings → Plugins → 톱니바퀴 → Install Plugin from Disk
-2. `ContractVisualizer.zip` 선택
-3. IDE 재시작
+1. [GitHub Releases](https://github.com/YiBeomSeok/ContractVisualizer/releases)에서 최신 ZIP 다운로드 (또는 위 명령으로 로컬 빌드)
+2. Android Studio → Settings → Plugins → 톱니바퀴 → Install Plugin from Disk
+3. ZIP 선택 후 IDE 재시작
 4. `*Contract.kt` 파일 열기 → 우측 "Contract Visualizer" Tool Window 확인
+
+## 릴리스 프로세스
+
+버전 관리는 [SemVer](https://semver.org/)를 따르고, 변경 이력은 [Keep a Changelog](https://keepachangelog.com/) 형식의 `CHANGELOG.md`에 기록한다.
+
+1. `CHANGELOG.md`의 `[Unreleased]` 섹션에 변경사항 추가
+2. `gradle.properties`의 `pluginVersion` 업데이트 (예: `1.0.0` → `1.0.1`)
+3. `./gradlew patchChangelog` 실행 — `[Unreleased]` 항목이 새 버전 섹션으로 이동
+4. 커밋 후 태그 푸쉬:
+   ```bash
+   git commit -am "chore: release v1.0.1"
+   git tag v1.0.1
+   git push origin main --tags
+   ```
+5. GitHub Actions가 자동으로 빌드 후 ZIP을 첨부한 GitHub Release를 생성
 
 ## 개발 환경에서 테스트
 
